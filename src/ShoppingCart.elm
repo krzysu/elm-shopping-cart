@@ -12,7 +12,7 @@ type alias Product =
   { id : Int
   , name : String
   , price : Float
-  , inCart : Bool
+  , image: String
   }
 
 type alias Model =
@@ -22,13 +22,13 @@ type alias Model =
 
 model : Model
 model =
-  { products = List.range 1 10 |> List.map mockProduct
+  { products = List.range 1 6 |> List.map mockProduct
   , cart = []
   }
 
 mockProduct : Int -> Product
 mockProduct id =
-  Product id ("product " ++ toString id) ((toFloat id) * 8) False
+  Product id ("product " ++ toString id) ((toFloat id) * 8) ("/public/images/0" ++ toString id ++ ".jpg")
 
 -- UPDATE
 type Msg
@@ -55,9 +55,16 @@ css : String -> Html Msg
 css path =
   node "link" [ rel "stylesheet", href path ] []
 
-priceWithCurrency : Float -> String
-priceWithCurrency price =
+productPrice : Float -> String
+productPrice price =
   toString price ++ " EUR"
+
+isInCart : Product -> List Product -> Bool
+isInCart product cart =
+  let
+    cartOfOneItem = List.filter (\{ id } -> id == product.id) cart
+  in
+    not (List.isEmpty cartOfOneItem)
 
 view : Model -> Html Msg
 view model =
@@ -74,7 +81,8 @@ view model =
     , div [ class "row" ]
         [ div [ class "col-md-8" ]
             [ h3 [] [text "Products"]
-            , div [ class "product-list" ] (List.map productItemView model.products)
+            , div [ class "product-list" ]
+                (List.map (\product -> productItemView product model.cart) model.products)
             ]
         , div [ class "col-md-4" ]
             [ h3 [] [text "Shopping cart"]
@@ -93,25 +101,28 @@ view model =
         ]
     ]
 
-productItemView : Product -> Html Msg
-productItemView product =
-  div [ class "product-list__item" ]
-    [ div [ class "product thumbnail" ]
-      [ img [ src "/public/images/01.jpg" ] []
-      , div [ class "caption" ]
-          [ h3 [] [text product.name]
-          , div [ class "product__price" ]
-              [ text (priceWithCurrency product.price) ]
-          , div [ class "product__button-wrap" ]
-              [ button
-                  [ class (if product.inCart then "btn btn-danger" else "btn btn-primary")
-                  , onClick (AddToCart product.id)
-                  ]
-                  [ text (if product.inCart then "Remove" else "Add") ]
-              ]
-          ]
+productItemView : Product -> List Product -> Html Msg
+productItemView product cart =
+  let
+    inCart = isInCart product cart
+  in
+    div [ class "product-list__item" ]
+      [ div [ class "product thumbnail" ]
+        [ img [ src product.image ] []
+        , div [ class "caption" ]
+            [ h3 [] [text product.name]
+            , div [ class "product__price" ]
+                [ text (productPrice product.price) ]
+            , div [ class "product__button-wrap" ]
+                [ button
+                    [ class (if inCart then "btn btn-danger" else "btn btn-primary")
+                    , onClick (if inCart then RemoveFromCart product.id else AddToCart product.id)
+                    ]
+                    [ text (if inCart then "Remove" else "Add to cart") ]
+                ]
+            ]
+        ]
       ]
-    ]
 
 cartView : List Product -> Html Msg
 cartView products =
@@ -121,7 +132,7 @@ cartView products =
               [ div [] (List.map cartItemView products)
               , if List.isEmpty products then
                   div [ class "alert alert-info" ]
-                    [ text "Cart is empty" ] 
+                    [ text "Cart is empty" ]
                 else
                   text ""
               , cartTotalView products
@@ -133,7 +144,7 @@ cartItemView : Product -> Html Msg
 cartItemView productInCart =
   div [ class "cart-item"]
     [ div [ class "cart-item__name"] [ text productInCart.name ]
-    , div [ class "cart-item__price" ] [ text (priceWithCurrency productInCart.price) ]
+    , div [ class "cart-item__price" ] [ text (productPrice productInCart.price) ]
     ]
 
 cartTotalView : List Product -> Html Msg
@@ -141,4 +152,4 @@ cartTotalView cart =
   let
     total = List.foldr (+) 0 (List.map (\{ price } -> price) cart)
   in
-    div [ class "cart__total" ] [text ("Total: " ++ priceWithCurrency total)]
+    div [ class "cart__total" ] [text ("Total: " ++ productPrice total)]
