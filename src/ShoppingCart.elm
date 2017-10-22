@@ -1,3 +1,5 @@
+module ShoppingCart exposing (..)
+
 import Html exposing (..)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (..)
