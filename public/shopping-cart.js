@@ -8260,6 +8260,64 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _user$project$ShoppingCart$isInCart = F2(
+	function (product, cart) {
+		var cartOfOneItem = A2(
+			_elm_lang$core$List$filter,
+			function (_p0) {
+				var _p1 = _p0;
+				return _elm_lang$core$Native_Utils.eq(_p1.id, product.id);
+			},
+			cart);
+		return !_elm_lang$core$List$isEmpty(cartOfOneItem);
+	});
+var _user$project$ShoppingCart$productPrice = function (price) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(price),
+		' EUR');
+};
+var _user$project$ShoppingCart$cartItemView = function (productInCart) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('cart-item'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('cart-item__name'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(productInCart.name),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('cart-item__price'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							_user$project$ShoppingCart$productPrice(productInCart.price)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$ShoppingCart$cartTotalView = function (cart) {
 	var total = A3(
 		_elm_lang$core$List$foldr,
@@ -8270,78 +8328,110 @@ var _user$project$ShoppingCart$cartTotalView = function (cart) {
 		0,
 		A2(
 			_elm_lang$core$List$map,
-			function (_p0) {
-				var _p1 = _p0;
-				return _p1.price;
+			function (_p2) {
+				var _p3 = _p2;
+				return _p3.price;
 			},
 			cart));
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('cart__total'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(
 				A2(
 					_elm_lang$core$Basics_ops['++'],
 					'Total: ',
-					_elm_lang$core$Basics$toString(total))),
+					_user$project$ShoppingCart$productPrice(total))),
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$ShoppingCart$cartView = function (product) {
+var _user$project$ShoppingCart$cartView = function (products) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$style(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'display', _1: 'flex'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'justifyContent', _1: 'space-between'},
-						_1: {ctor: '[]'}
-					}
-				}),
+			_0: _elm_lang$html$Html_Attributes$class('cart'),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(product.name),
+					_0: _elm_lang$html$Html_Attributes$class('panel panel-default'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('panel-body'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								A2(_elm_lang$core$List$map, _user$project$ShoppingCart$cartItemView, products)),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$core$List$isEmpty(products) ? A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('alert alert-info'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Cart is empty'),
+										_1: {ctor: '[]'}
+									}) : _elm_lang$html$Html$text(''),
+								_1: {
+									ctor: '::',
+									_0: _user$project$ShoppingCart$cartTotalView(products),
+									_1: {ctor: '[]'}
+								}
+							}
+						}),
 					_1: {ctor: '[]'}
 				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$ShoppingCart$css = function (path) {
+	return A3(
+		_elm_lang$html$Html$node,
+		'link',
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
 			_1: {
 				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'price: ',
-								_elm_lang$core$Basics$toString(product.price))),
-						_1: {ctor: '[]'}
-					}),
+				_0: _elm_lang$html$Html_Attributes$href(path),
 				_1: {ctor: '[]'}
 			}
-		});
+		},
+		{ctor: '[]'});
 };
 var _user$project$ShoppingCart$update = F2(
 	function (msg, model) {
-		var _p2 = msg;
-		if (_p2.ctor === 'AddToCart') {
+		var _p4 = msg;
+		if (_p4.ctor === 'AddToCart') {
 			var products = A2(
 				_elm_lang$core$List$filter,
-				function (_p3) {
-					var _p4 = _p3;
-					return _elm_lang$core$Native_Utils.eq(_p4.id, _p2._0);
+				function (_p5) {
+					var _p6 = _p5;
+					return _elm_lang$core$Native_Utils.eq(_p6.id, _p4._0);
 				},
 				model.products);
 			return _elm_lang$core$Native_Utils.update(
@@ -8352,9 +8442,9 @@ var _user$project$ShoppingCart$update = F2(
 		} else {
 			var cart = A2(
 				_elm_lang$core$List$filter,
-				function (_p5) {
-					var _p6 = _p5;
-					return !_elm_lang$core$Native_Utils.eq(_p6.id, _p2._0);
+				function (_p7) {
+					var _p8 = _p7;
+					return !_elm_lang$core$Native_Utils.eq(_p8.id, _p4._0);
 				},
 				model.cart);
 			return _elm_lang$core$Native_Utils.update(
@@ -8364,7 +8454,7 @@ var _user$project$ShoppingCart$update = F2(
 	});
 var _user$project$ShoppingCart$Product = F4(
 	function (a, b, c, d) {
-		return {id: a, name: b, price: c, inCart: d};
+		return {id: a, name: b, price: c, image: d};
 	});
 var _user$project$ShoppingCart$mockProduct = function (id) {
 	return A4(
@@ -8375,13 +8465,19 @@ var _user$project$ShoppingCart$mockProduct = function (id) {
 			'product ',
 			_elm_lang$core$Basics$toString(id)),
 		_elm_lang$core$Basics$toFloat(id) * 8,
-		false);
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'/public/images/0',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(id),
+				'.jpg')));
 };
 var _user$project$ShoppingCart$model = {
 	products: A2(
 		_elm_lang$core$List$map,
 		_user$project$ShoppingCart$mockProduct,
-		A2(_elm_lang$core$List$range, 1, 10)),
+		A2(_elm_lang$core$List$range, 1, 6)),
 	cart: {ctor: '[]'}
 };
 var _user$project$ShoppingCart$Model = F2(
@@ -8394,138 +8490,286 @@ var _user$project$ShoppingCart$RemoveFromCart = function (a) {
 var _user$project$ShoppingCart$AddToCart = function (a) {
 	return {ctor: 'AddToCart', _0: a};
 };
-var _user$project$ShoppingCart$productView = function (product) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$style(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'border', _1: '1px solid grey'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'margin', _1: '0 0 10px'},
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(product.name),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
+var _user$project$ShoppingCart$productItemView = F2(
+	function (product, cart) {
+		var inCart = A2(_user$project$ShoppingCart$isInCart, product, cart);
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('product-list__item'),
+				_1: {ctor: '[]'}
+			},
+			{
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$div,
-					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'price: ',
-								_elm_lang$core$Basics$toString(product.price))),
+						_0: _elm_lang$html$Html_Attributes$class('product thumbnail'),
 						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$img,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$src(product.image),
+								_1: {ctor: '[]'}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('caption'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$h3,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(product.name),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('product__price'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													_user$project$ShoppingCart$productPrice(product.price)),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('product__button-wrap'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$button,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class(
+																inCart ? 'btn btn-danger' : 'btn btn-primary'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(
+																	inCart ? _user$project$ShoppingCart$RemoveFromCart(product.id) : _user$project$ShoppingCart$AddToCart(product.id)),
+																_1: {ctor: '[]'}
+															}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text(
+																inCart ? 'Remove' : 'Add to cart'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}
 					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$ShoppingCart$AddToCart(product.id)),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								product.inCart ? 'Remove' : 'Add'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$ShoppingCart$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$style(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'display', _1: 'flex'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'justifyContent', _1: 'space-around'},
-						_1: {ctor: '[]'}
-					}
-				}),
+			_0: _elm_lang$html$Html_Attributes$class('container'),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
+			_0: _user$project$ShoppingCart$css('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'),
+			_1: {
+				ctor: '::',
+				_0: _user$project$ShoppingCart$css('/public/stylesheets/index.css'),
+				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$h2,
-						{ctor: '[]'},
+						_elm_lang$html$Html$div,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text('Products'),
+							_0: _elm_lang$html$Html_Attributes$class('row'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('col-md-12'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$h1,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Elm Shopping Cart Example'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$div,
-							{ctor: '[]'},
-							A2(_elm_lang$core$List$map, _user$project$ShoppingCart$productView, model.products)),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$h2,
-							{ctor: '[]'},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Shopping cart'),
+								_0: _elm_lang$html$Html_Attributes$class('row'),
 								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$h3,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Products'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('product-list'),
+													_1: {ctor: '[]'}
+												},
+												A2(
+													_elm_lang$core$List$map,
+													function (product) {
+														return A2(_user$project$ShoppingCart$productItemView, product, model.cart);
+													},
+													model.products)),
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('col-md-4'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$h3,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Shopping cart'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: _user$project$ShoppingCart$cartView(model.cart),
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}
 							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$div,
+								_elm_lang$html$Html$footer,
 								{ctor: '[]'},
-								A2(_elm_lang$core$List$map, _user$project$ShoppingCart$cartView, model.cart)),
-							_1: {
-								ctor: '::',
-								_0: _user$project$ShoppingCart$cartTotalView(model.cart),
-								_1: {ctor: '[]'}
-							}
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$small,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('made by '),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$a,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$href('https://twitter.com/krzysu'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Kris Urbas'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(', source code available on '),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$a,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$href('https://github.com/krzysu/elm-shopping-cart'),
+																_1: {ctor: '[]'}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('github'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
 						}
-					}),
-				_1: {ctor: '[]'}
+					}
+				}
 			}
 		});
 };
