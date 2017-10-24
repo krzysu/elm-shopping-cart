@@ -2,7 +2,7 @@
 
 example of shopping cart implemented in elm
 
-~for demo [click here](http://krzysu.github.io/elm-shopping-cart/)~ (not yet available)
+for demo [click here](http://krzysu.github.io/elm-shopping-cart/)
 
 ## getting started
 
@@ -15,19 +15,18 @@ example of shopping cart implemented in elm
 elm-app start
 ```
 
-- build elm to js
+- build elm to js and deploy to github pages
 
 ```sh
 elm-app build
+gh-pages -d build
 ```
 
 ## details
-- build with [create elm app](https://github.com/halfzebra/create-elm-app). Check their page for more details.
+- build with [create elm app](https://github.com/halfzebra/create-elm-app). Check their page for details.
 
 ## TODO
 - load products from json
-- scripts for
-   - deploy to github pages
 - add unit tests
 
 * * *

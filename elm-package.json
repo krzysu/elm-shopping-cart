@@ -1,7 +1,8 @@
 {
     "version": "0.0.1",
     "summary": "simple shopping cart demo",
-    "repository": "https://github.com/user/project.git",
+    "repository": "https://github.com/krzysu/elm-shopping-cart.git",
+    "homepage": "http://krzysu.github.io/elm-shopping-cart",
     "license": "MIT",
     "source-directories": [
         "src"
