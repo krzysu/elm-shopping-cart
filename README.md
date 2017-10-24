@@ -7,32 +7,27 @@ example of shopping cart implemented in elm
 ## getting started
 
 - [install elm](https://guide.elm-lang.org/install.html)
-- install dependencies
-
-```sh
-elm-package install
-```
+- [install create-elm-app](https://github.com/halfzebra/create-elm-app)
 
 - start local development server
 
 ```sh
-elm reactor
+elm-app start
 ```
 
 - build elm to js
 
 ```sh
-elm-make src/ShoppingCart.elm --output=public/shopping-cart.js
+elm-app build
 ```
 
-- open app after build from `public/index.html`
+## details
+- build with [create elm app](https://github.com/halfzebra/create-elm-app). Check their page for more details.
 
 ## TODO
 - load products from json
 - scripts for
-   - build
    - deploy to github pages
-- solve loading css for dev and after build
 - add unit tests
 
 * * *

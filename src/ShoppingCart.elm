@@ -28,7 +28,7 @@ model =
 
 mockProduct : Int -> Product
 mockProduct id =
-  Product id ("product " ++ toString id) ((toFloat id) * 8) ("/public/images/0" ++ toString id ++ ".jpg")
+  Product id ("product " ++ toString id) ((toFloat id) * 8) ("images/0" ++ toString id ++ ".jpg")
 
 -- UPDATE
 type Msg
@@ -51,10 +51,6 @@ update msg model =
         { model | cart = cart }
 
 -- VIEW
-css : String -> Html Msg
-css path =
-  node "link" [ rel "stylesheet", href path ] []
-
 productPrice : Float -> String
 productPrice price =
   toString price ++ " EUR"
@@ -69,10 +65,7 @@ isInCart product cart =
 view : Model -> Html Msg
 view model =
   div [ class "container" ]
-    [ css "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    , css "/public/stylesheets/index.css"
-
-    , div [ class "row" ]
+    [ div [ class "row" ]
         [ div [ class "col-md-12" ]
             [ h1 []
                 [ text "Elm Shopping Cart Example" ]
