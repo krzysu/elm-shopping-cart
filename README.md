@@ -22,13 +22,18 @@ elm-app build
 gh-pages -d build
 ```
 
+- run unit tests
+
+```sh
+elm-app test
+```
+
 ## details
 - build with [create elm app](https://github.com/halfzebra/create-elm-app). Check their page for details.
 
 ## TODO
 - load products from json
-- add unit tests
 
 * * *
-author: Kris Urbas [@krzysu](https://twitter.com/krzysu)   
+author: Kris Urbas [@krzysu](https://twitter.com/krzysu)
 licence: MIT
