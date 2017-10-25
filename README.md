@@ -22,7 +22,7 @@ elm-app build
 gh-pages -d build
 ```
 
-- run unit tests
+- run unit tests (optional with `--watch`)
 
 ```sh
 elm-app test
