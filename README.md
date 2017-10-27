@@ -4,6 +4,8 @@ example of shopping cart implemented in elm
 
 for demo [click here](http://krzysu.github.io/elm-shopping-cart/)
 
+this app was built with [create elm app](https://github.com/halfzebra/create-elm-app). Check their page for details.
+
 ## getting started
 
 - [install elm](https://guide.elm-lang.org/install.html)
@@ -27,12 +29,6 @@ gh-pages -d build
 ```sh
 elm-app test
 ```
-
-## details
-- build with [create elm app](https://github.com/halfzebra/create-elm-app). Check their page for details.
-
-## TODO
-- load products from json
 
 * * *
 author: Kris Urbas [@krzysu](https://twitter.com/krzysu)
