@@ -42,7 +42,7 @@ updateMsg =
                 let
                     product1 = mockProduct 1
                     product2 = mockProduct 2
-                    rest = List.range 3 6 |> List.map ShoppingCart.mockProduct
+                    rest = List.range 3 6 |> List.map mockProduct
                     model =
                         { products = [ product1 ] ++ [ product2 ] ++ rest
                         , cart = []
@@ -50,13 +50,13 @@ updateMsg =
 
                     newModel = ShoppingCart.update (ShoppingCart.AddToCart 2) model
                 in
-                    Expect.equalLists [ product2 ] newModel.cart
+                    Expect.equalLists [ product2 ] (Tuple.first newModel).cart
         , test "RemoveFromCart" <|
             \_ ->
                 let
                     product1 = mockProduct 1
                     product2 = mockProduct 2
-                    rest = List.range 3 6 |> List.map ShoppingCart.mockProduct
+                    rest = List.range 3 6 |> List.map mockProduct
                     model =
                         { products = [ product1 ] ++ [ product2 ] ++ rest
                         , cart = [ product1, product2 ]
@@ -64,5 +64,5 @@ updateMsg =
 
                     newModel = ShoppingCart.update (ShoppingCart.RemoveFromCart 2) model
                 in
-                    Expect.equalLists [ product1 ] newModel.cart
+                    Expect.equalLists [ product1 ] (Tuple.first newModel).cart
         ]

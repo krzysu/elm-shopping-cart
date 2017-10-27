@@ -33,20 +33,16 @@ init =
 
 model : Model
 model =
-  { products = List.range 1 6 |> List.map mockProduct
+  { products = []
   , cart = []
   }
-
-mockProduct : Int -> Product
-mockProduct id =
-  Product id ("product " ++ toString id) ((toFloat id) * 8) ("images/0" ++ toString id ++ ".jpg")
 
 -- SUBSCRIPTIONS
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
 
--- HTTP
+-- CMD
 getProducts : Cmd Msg
 getProducts =
   let
@@ -55,6 +51,7 @@ getProducts =
   in
     Http.send NewProducts request
 
+-- JSON
 decodeProducts : Decode.Decoder (List Product)
 decodeProducts =
     Decode.list decodeProduct
@@ -71,7 +68,7 @@ decodeProduct =
 type Msg
   = AddToCart Int
   | RemoveFromCart Int
-  | NewProducts (Result Http.Error String)
+  | NewProducts (Result Http.Error (List Product))
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
