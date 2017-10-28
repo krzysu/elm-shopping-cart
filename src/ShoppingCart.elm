@@ -163,12 +163,11 @@ cartView products =
   div [ class "cart" ]
     [ div [ class "panel panel-default" ]
       [ div [ class "panel-body" ]
-        [ div [] (List.map cartItemView products)
-        , if List.isEmpty products then
+        [ if List.isEmpty products then
             div [ class "alert alert-info" ]
               [ text "Cart is empty" ]
           else
-            text ""
+            div [ class "cart__body" ] (List.map cartItemView products)
         , cartTotalView products
         ]
       ]
