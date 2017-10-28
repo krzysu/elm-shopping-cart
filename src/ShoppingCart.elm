@@ -54,15 +54,15 @@ getProducts =
 -- JSON
 decodeProducts : Decode.Decoder (List Product)
 decodeProducts =
-    Decode.list decodeProduct
+  Decode.list decodeProduct
 
 decodeProduct : Decode.Decoder Product
 decodeProduct =
-    Decode.map4 Product
-        (Decode.field "id" Decode.int)
-        (Decode.field "name" Decode.string)
-        (Decode.field "price" Decode.float)
-        (Decode.field "image" Decode.string)
+  Decode.map4 Product
+    (Decode.field "id" Decode.int)
+    (Decode.field "name" Decode.string)
+    (Decode.field "price" Decode.float)
+    (Decode.field "image" Decode.string)
 
 -- UPDATE
 type Msg
@@ -177,7 +177,10 @@ cartView products =
 cartItemView : Product -> Html Msg
 cartItemView productInCart =
   div [ class "cart-item"]
-    [ div [ class "cart-item__name"] [ text productInCart.name ]
+    [ div []
+      [ button [ class "btn btn-danger btn-xs", onClick (RemoveFromCart productInCart.id) ] [ text "X" ]
+      , span [ class "cart-item__name" ] [ text productInCart.name ]
+      ]
     , div [ class "cart-item__price" ] [ text (productPrice productInCart.price) ]
     ]
 
